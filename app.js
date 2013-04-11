@@ -7,20 +7,29 @@ app.use(express.logger());
 
 var diffbot = new Diffbot('a425f0fde637e1f7741e20c2cfdae71a')
 
+app.get('/', function (req, res){
+	res.setHeader('Content-Type', 'json');
+	res.end('Please go to /crawl to use the crawler');
+});
+
 app.get('/crawl', function (req, res){
+	res.setHeader('Content-Type', 'json');
 	var siteToCrawl = req.query.site;
+	if (typeof siteToCrawl === 'undefined'){
+		res.end(JSON.stringify({"isHTML": "False", "errorCode" : "Make sure you have the URL right. Example: http://xxx.com/crawl/?site=http://google.com"}));
+	}
+	if (siteToCrawl.indexOf("http") !== 0){
+		res.end(JSON.stringify({"isHTML": "False", "rawHTML" : "Make you have http:// or https:// at the beginning of the URL you wish to crawl."}));
+	}
 	request(siteToCrawl, function(err, response, body){
-		res.setHeader('Content-Type', 'json');
-		if (!err && response.statusCode == 200){
+		if (err){
+			res.end(JSON.stringify({"isHTML" : "False", "errorCode" : '400'}));
+		} else if (response.statusCode == 200){
 			diffbot.article({uri: siteToCrawl, html: true}, function(err, responseDiffbot) {
-				if (err)
-					console.log(err);
-				var jsonResponse = JSON.stringify({"isHTML": "True", "rawHTML" : responseDiffbot.html});
-				res.end(jsonResponse); 
+				res.end(JSON.stringify({"isHTML": "True", "rawHTML" : responseDiffbot.html})); 
 			});
 		} else{
-			jsonResponse = JSON.stringify({"isHTML" : "False", "errorCode" : response.statusCode});
-			res.end(jsonResponse);
+			res.end(JSON.stringify({"isHTML" : "False", "errorCode" : response.statusCode}));
 		}
 	});
 });
