@@ -19,7 +19,7 @@ app.get('/crawl', function (req, res){
 		res.end(JSON.stringify({"isHTML": "False", "errorCode" : "Make sure you have the URL right. Example: http://xxx.com/crawl/?site=http://google.com"}));
 	}
 	if (siteToCrawl.indexOf("http") !== 0){
-		res.end(JSON.stringify({"isHTML": "False", "rawHTML" : "Make you have http:// or https:// at the beginning of the URL you wish to crawl."}));
+		res.end(JSON.stringify({"isHTML": "False", "errorCode" : "Make you have http:// or https:// at the beginning of the URL you wish to crawl."}));
 	}
 	request(siteToCrawl, function(err, response, body){
 		if (err){
