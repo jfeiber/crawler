@@ -3,6 +3,8 @@ var app = express();
 var request = require("request");
 var Diffbot = require('diffbot').Diffbot
 
+app.use(express.logger());
+
 var diffbot = new Diffbot('a425f0fde637e1f7741e20c2cfdae71a')
 
 app.get('/crawl', function (req, res){
@@ -23,4 +25,7 @@ app.get('/crawl', function (req, res){
 	});
 });
 
-app.listen(5000);
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
