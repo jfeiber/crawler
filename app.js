@@ -24,16 +24,3 @@ app.get('/crawl', function (req, res){
 });
 
 app.listen(5000);
-
-
-//Old Request Code:
-// request(req.query.site, function (err, response, body){
-// 	res.setHeader('Content-Type', 'json');
-// 	if (!err && response.statusCode == 200){
-// 		var jsonResponse = JSON.stringify({"isHTML": "True", "rawHTML" : body}); 
-// 	}
-// 	else{
-// 		var jsonResponse = JSON.stringify({"isHTML" : "False", "errorCode" : response.statusCode});
-// 	}
-// 	res.end(jsonResponse);
-// });
