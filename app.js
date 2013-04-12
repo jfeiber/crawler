@@ -31,9 +31,8 @@ app.get('/crawl', function (req, res){
 			diffbot.article({uri: siteToCrawl, html: true}, function(err, responseDiffbot) {
 				res.end(JSON.stringify({"isHTML": "True", "rawHTML" : responseDiffbot.html}));
 				pg.connect(DATABASE_URL, function (err, client){
-					if (err)
-						console.log(err);
-					var query = client.query('INSERT INTO crawldata (url, html) VALUES (\''+siteToCrawl+'\', \''+responseDiffbot.html+'\');');
+					if (err) throw err;
+					var query = client.query('INSERT INTO crawldata (url, html) VALUES (\''+siteToCrawl+'\', \''+escape(responseDiffbot.html)+'\');');
 				}); 
 			});
 		} else{
