@@ -39,7 +39,7 @@ app.get('/nextlinktocrawl', function(req,res){
 	});
 });
 
-var port = process.env.PORT || 5002;
+var port = process.env.PORT || 5001;
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
