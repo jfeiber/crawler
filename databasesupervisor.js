@@ -21,7 +21,6 @@ app.get('/nextlinktocrawl', function(req,res){
 				links.push(result.rows[i]['domain'])
 			}
 			domain = links[Math.floor(Math.random()*links.length)];
-
 			var query = client.query('SELECT * FROM linkstocrawl WHERE domain=\''+domain+'\';', function(err, result){
 				if (err){
 					console.log(err);
@@ -33,7 +32,7 @@ app.get('/nextlinktocrawl', function(req,res){
 				for (var i=0; i<result.rows.length; i++){
 					urls.push(result.rows[i]['fullurl']);
 				}
-				res.end(JSON.stringify({"Link" : urls[Math.floor(Math.random()*links.length)]}));
+				res.end(JSON.stringify({"Link" : urls[Math.floor(Math.random()*urls.length)]}));
 			});
 		});
 	});
